@@ -12,3 +12,19 @@ Route::get('/auth/register', [RegisterController::class, 'index'])->name('regist
 Route::post('/auth/register', [RegisterController::class, 'store'])->name('register.store');
 
 Route::get('/auth/login', [LoginController::class, 'index'])->name('login');
+
+
+Route::get('/email/verify/{id}/{hash}', function (\Illuminate\Foundation\Auth\EmailVerificationRequest $request) {
+ $request->fulfill();
+ return redirect('/dashboard');
+
+})->middleware(['auth','signed'])->name('verification.verify');
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware([])->name('dashboard');
+Route::get(
+    '/email/very',function () {
+        return view('auth.verify-email');
+}
+)->middleware(['auth'])->name('verification.notice');
